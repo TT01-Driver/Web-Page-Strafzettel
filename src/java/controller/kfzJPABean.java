@@ -12,6 +12,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import model.Kfz;
+import model.Strafzettel;
 import utilities.Data;
 
 /**
@@ -22,40 +23,46 @@ import utilities.Data;
 @RequestScoped
 public class kfzJPABean {
     private List<Kfz> kfzListe;
-    private List<Kfz> fahrzeugListe;
-    
+    private List<Strafzettel> strafzettelListe;
+    private List<Strafzettel> strafzettelListeX;
+ 
     @Inject
     private Data dbBean;
 
+    // Konstruktoren
     public kfzJPABean() {
         this.kfzListe = new ArrayList<>();
-        this.fahrzeugListe = new ArrayList<>();
+        this.strafzettelListe = new ArrayList<>();
+        this.strafzettelListeX = new ArrayList<>();
     }
     
     @PostConstruct
     private void init(){
         this.kfzListe = dbBean.dbGetKfzList();
-        this.fahrzeugListe = dbBean.dbGetFahrzeugList();
+        this.strafzettelListe = dbBean.dbGetStrafzettelList();
+        //this.strafzettelListeX = dbBean.dbGetStrafzettelListX();
     }
 
-    public List<Kfz> getFahrzeugListe() {
-        return fahrzeugListe;
-    }
-
-    public void setFahrzeugListe(List<Kfz> fahrzeugListe) {
-        this.fahrzeugListe = fahrzeugListe;
-    }
-
-    
-    
+    // Setter & Getter
     public List<Kfz> getKfzListe() {
         return kfzListe;
     }
-
     public void setKfzListe(List<Kfz> kfzListe) {
         this.kfzListe = kfzListe;
     }
     
+    public List<Strafzettel> getStrafzettelListe() {
+        return strafzettelListe;
+    }
+    public void setStrafzettelListe(List<Strafzettel> strafzettelListe) {
+        this.strafzettelListe = strafzettelListe;
+    }
     
     
+   /* public List<Strafzettel> getStrafzettelKennzeichenX(){
+            return strafzettelListeX;
+    }
+*/
+    // Memberfunktion
+
 }
