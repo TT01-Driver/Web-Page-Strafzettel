@@ -6,9 +6,7 @@
 package model;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,7 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -28,61 +25,49 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author lb38
  */
-
-// SQL-Abfragen
 @Entity
-@Table(name="adresse")
+@Table(name = "adresse")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name="adresse.findAll", query="SELECT adr FROM Adresse adr"),
-    @NamedQuery(name="adresse.findByAdrID", query="SELECT adr FROM Adresse adr WHERE adr.adrID = :adrID"),
-    @NamedQuery(name="adresse.findByTelefon", query="SELECT adr FROM Adresse adr WHERE adr.telefon = :telefon")})
+    @NamedQuery(name = "Adresse.findAll", query = "SELECT a FROM Adresse a")
+    , @NamedQuery(name = "Adresse.findByAdrID", query = "SELECT a FROM Adresse a WHERE a.adrID = :adrID")
+    , @NamedQuery(name = "Adresse.findByTelefon", query = "SELECT a FROM Adresse a WHERE a.telefon = :telefon")})
+public class Adresse implements Serializable {
 
-public class Adresse implements Serializable{
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    
-    // Variablen innerhalb dieser Tabelle
     @Basic(optional = false)
-    @Column(name="AdrID")
+    @Column(name = "AdrID")
     private Integer adrID;
     @Basic(optional = false)
     @NotNull
-    @Size(min=1,max=24)
-    @Column(name="Telefon")
+    @Size(min = 1, max = 25)
+    @Column(name = "Telefon")
     private String telefon;
-    
-    // Verweis auf andere Tabellen
-    @JoinColumn(name="FK_AID", referencedColumnName="AID")
+    @JoinColumn(name = "FK_AID", referencedColumnName = "AID")
     @ManyToOne(optional = false)
-    private Anschrift anschriftIDFK;
-    @JoinColumn(name="FK_FID", referencedColumnName="FID")
+    private Anschrift fkAid;
+    @JoinColumn(name = "FK_FID", referencedColumnName = "FID")
     @ManyToOne(optional = false)
-    private Fahrzeughalter fahrzeughalterIDFK;
-    
-    //Verweis auf diese Tabelle
-    /*
-        Entfällt hier, da in den anderen Tabellen kein FK_adrID gibt
-    */
-    
-    // Konstruktor  
+    private Fahrzeughalter fkFid;
+
     public Adresse() {
     }
+
     public Adresse(Integer adrID) {
         this.adrID = adrID;
     }
-    public Adresse(Integer adrID, String telefon, Anschrift anschriftIDFK, Fahrzeughalter fahrzeughalterIDFK) {
+
+    public Adresse(Integer adrID, String telefon) {
         this.adrID = adrID;
         this.telefon = telefon;
-        this.anschriftIDFK = anschriftIDFK;
-        this.fahrzeughalterIDFK = fahrzeughalterIDFK;
     }
 
-    // Setter und Getter
     public Integer getAdrID() {
         return adrID;
     }
+
     public void setAdrID(Integer adrID) {
         this.adrID = adrID;
     }
@@ -90,25 +75,50 @@ public class Adresse implements Serializable{
     public String getTelefon() {
         return telefon;
     }
+
     public void setTelefon(String telefon) {
         this.telefon = telefon;
     }
 
-    public Anschrift getAnschriftIDFK() {
-        return anschriftIDFK;
-    }
-    public void setAnschriftIDFK(Anschrift anschriftIDFK) {
-        this.anschriftIDFK = anschriftIDFK;
+    public Anschrift getFkAid() {
+        return fkAid;
     }
 
-    public Fahrzeughalter getFahrzeughalterIDFK() {
-        return fahrzeughalterIDFK;
+    public void setFkAid(Anschrift fkAid) {
+        this.fkAid = fkAid;
     }
-    public void setFahrzeughalterIDFK(Fahrzeughalter fahrzeughalterIDFK) {
-        this.fahrzeughalterIDFK = fahrzeughalterIDFK;
+
+    public Fahrzeughalter getFkFid() {
+        return fkFid;
     }
-    
-    // Memberfunktionen
-    
+
+    public void setFkFid(Fahrzeughalter fkFid) {
+        this.fkFid = fkFid;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (adrID != null ? adrID.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Adresse)) {
+            return false;
+        }
+        Adresse other = (Adresse) object;
+        if ((this.adrID == null && other.adrID != null) || (this.adrID != null && !this.adrID.equals(other.adrID))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "model.Adresse[ adrID=" + adrID + " ]";
+    }
     
 }

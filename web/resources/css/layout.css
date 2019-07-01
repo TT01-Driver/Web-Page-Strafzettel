@@ -52,5 +52,12 @@ body{
     height: 500px;
     background-color: gray;
 }
+#content{
+    position: absolute;
+    top: 235px;
+    left: 230px;
+    width: 800px;
+    height: 500px;
+}
 
 

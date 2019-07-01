@@ -11,4 +11,5 @@
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>
     </jdbc-connection-pool>
     <jdbc-resource enabled="true" jndi-name="java:app/Strafzettel" object-type="user" pool-name="mysql_strafzettel_AdminPool"/>
+    <jdbc-resource enabled="true" jndi-name="java:app/strafzettel" object-type="user" pool-name="mysql_strafzettel_AdminPool"/>
 </resources>

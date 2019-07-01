@@ -10,23 +10,55 @@ and open the template in the editor.
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <head>
-        <title>TODO supply a title</title>
+        <title>KFZ-Liste</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
-       <h:body>
-        
-        <ui:composition template="WEB-INF/template/master.xhtml">
-            <ui:define name="content">
-                <h:form>
-                    <div style="overflow-y: auto; height: 100%">
-                        <h:dataTable 
-                            id ="table1"
-                            value="#{fahrzeugJPABean.fahrzList}"
-                            class="table table-striped table-bordered"
-                            var="fahrz"
-                            border="1">
-                    </div>
-                </h:form>
-            
-    </h:body>
+        <h:body>      
+            <ui:composition template="WEB-INF/template/master.xhtml">
+                <ui:define name="content">
+                    <h:form>
+                        <div style="overflow-y: auto; height: 100%">
+                            <h:dataTable 
+                                id ="table1"
+                                value="#{kfzJPABean.kfzListe}"
+                                class="table table-striped table-bordered"
+                                var="fahrz"
+                                border="1">
+                                <h:outputText value="Fahrzeuge"/>
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Marke"/>
+                                    </f:facet>
+                                    <h:outputText value="#{fahrz.marke}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Farbe"/>
+                                    </f:facet>
+                                    <h:outputText value="#{fahrz.farbe}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Kennzeichen"/>
+                                    </f:facet>
+                                    <h:outputText value="#{fahrz.kennzeichen}"/>
+                                </h:column>       
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Nachname"/>
+                                    </f:facet>
+                                    <h:outputText value="#{fahrz.fkFid.nachname}"/>
+                                </h:column>    
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Vorname"/>
+                                    </f:facet>
+                                    <h:outputText value="#{fahrz.fkFid.vorname}"/>
+                                </h:column>
+                            </h:dataTable>
+                        </div>
+                    </h:form>
+                </ui:define>    
+            </ui:composition>
+        </h:body>
 </html>

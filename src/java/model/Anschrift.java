@@ -18,6 +18,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -26,122 +27,144 @@ import javax.xml.bind.annotation.XmlTransient;
  *
  * @author lb38
  */
-
 @Entity
-@Table(name="anschrift")
+@Table(name = "anschrift")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name="anschrift.findAll", query="SELECT a FROM Anschrift a"),
-    @NamedQuery(name="anschrift.findByAID", query="SELECT a FROM Anschrift a WHERE a.aid = :aid"),
-    @NamedQuery(name="anschrift.fingByOrt", query="SELECT a FROM Anschrift a WHERE a.ort = :ort"),
-    @NamedQuery(name="anschrift.findByPLZ", query="SELECT a FROM Anschrift a WHERE a.plz = :plz"),
-    @NamedQuery(name="anschrift.findByStrasse", query="SELECT a FROM Anschrift a WHERE a.strasse = :strasse")})
-
+    @NamedQuery(name = "Anschrift.findAll", query = "SELECT a FROM Anschrift a")
+    , @NamedQuery(name = "Anschrift.findByAid", query = "SELECT a FROM Anschrift a WHERE a.aid = :aid")
+    , @NamedQuery(name = "Anschrift.findByStrasse", query = "SELECT a FROM Anschrift a WHERE a.strasse = :strasse")
+    , @NamedQuery(name = "Anschrift.findByHausnummer", query = "SELECT a FROM Anschrift a WHERE a.hausnummer = :hausnummer")
+    , @NamedQuery(name = "Anschrift.findByPlz", query = "SELECT a FROM Anschrift a WHERE a.plz = :plz")
+    , @NamedQuery(name = "Anschrift.findByOrt", query = "SELECT a FROM Anschrift a WHERE a.ort = :ort")})
 public class Anschrift implements Serializable {
-   
+
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-  
-    // Variablen innerhalb dieser Tabelle
     @Basic(optional = false)
-    @Column(name="AID")
+    @Column(name = "AID")
     private Integer aid;
     @Basic(optional = false)
+    @NotNull
     @Size(min = 1, max = 25)
-    @Column(name="Hausnummer")
+    @Column(name = "Strasse")
+    private String strasse;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 25)
+    @Column(name = "Hausnummer")
     private String hausnummer;
     @Basic(optional = false)
-    @Size(min = 1, max = 24)
-    @Column(name="Ort")
+    @NotNull
+    @Column(name = "PLZ")
+    private int plz;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 25)
+    @Column(name = "Ort")
     private String ort;
-    @Basic(optional = false)
-    @Size(min = 1, max = 24)
-    @Column(name="PLZ")
-    private Integer plz;
-    @Basic(optional = false)
-    @Size(min = 1, max = 24)
-    @Column(name="Strasse")
-    private String strasse;
-    
-    //Zugriff auf andere Tabellen
-    /*
-        Entfällt hier, da keine FK in dieser Tabelle vorhanden sind
-    */
-    
-    // Zugriff von anderen Tabellen auf diese
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="anschriftFKID")
-    private Collection<Adresse> adresseCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="strafzettelFKID")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkAid")
     private Collection<Strafzettel> strafzettelCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkAid")
+    private Collection<Adresse> adresseCollection;
 
-    // Konstruktor
     public Anschrift() {
     }
+
     public Anschrift(Integer aid) {
         this.aid = aid;
     }
-    public Anschrift(Integer aid, String hausnummer, String ort, Integer plz, String strasse, Collection<Adresse> adresseCollection, Collection<Strafzettel> strafzettelCollection) {
+
+    public Anschrift(Integer aid, String strasse, String hausnummer, int plz, String ort) {
         this.aid = aid;
-        this.hausnummer = hausnummer;
-        this.ort = ort;
-        this.plz = plz;
         this.strasse = strasse;
-        this.adresseCollection = adresseCollection;
-        this.strafzettelCollection = strafzettelCollection;
+        this.hausnummer = hausnummer;
+        this.plz = plz;
+        this.ort = ort;
     }
-    
-    // Setter und Getter
+
     public Integer getAid() {
         return aid;
     }
+
     public void setAid(Integer aid) {
         this.aid = aid;
-    }
-
-    public String getHausnummer() {
-        return hausnummer;
-    }
-    public void setHausnummer(String hausnummer) {
-        this.hausnummer = hausnummer;
-    }
-
-    public String getOrt() {
-        return ort;
-    }
-    public void setOrt(String ort) {
-        this.ort = ort;
-    }
-
-    public Integer getPlz() {
-        return plz;
-    }
-    public void setPlz(Integer plz) {
-        this.plz = plz;
     }
 
     public String getStrasse() {
         return strasse;
     }
+
     public void setStrasse(String strasse) {
         this.strasse = strasse;
     }
 
-    @XmlTransient
-    public Collection<Adresse> getAdresseCollection() {
-        return adresseCollection;
+    public String getHausnummer() {
+        return hausnummer;
     }
-    public void setAdresseCollection(Collection<Adresse> adresseCollection) {
-        this.adresseCollection = adresseCollection;
+
+    public void setHausnummer(String hausnummer) {
+        this.hausnummer = hausnummer;
+    }
+
+    public int getPlz() {
+        return plz;
+    }
+
+    public void setPlz(int plz) {
+        this.plz = plz;
+    }
+
+    public String getOrt() {
+        return ort;
+    }
+
+    public void setOrt(String ort) {
+        this.ort = ort;
     }
 
     @XmlTransient
     public Collection<Strafzettel> getStrafzettelCollection() {
         return strafzettelCollection;
     }
+
     public void setStrafzettelCollection(Collection<Strafzettel> strafzettelCollection) {
         this.strafzettelCollection = strafzettelCollection;
     }
-    
-    // Memberfunktionen
+
+    @XmlTransient
+    public Collection<Adresse> getAdresseCollection() {
+        return adresseCollection;
+    }
+
+    public void setAdresseCollection(Collection<Adresse> adresseCollection) {
+        this.adresseCollection = adresseCollection;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (aid != null ? aid.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Anschrift)) {
+            return false;
+        }
+        Anschrift other = (Anschrift) object;
+        if ((this.aid == null && other.aid != null) || (this.aid != null && !this.aid.equals(other.aid))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "model.Anschrift[ aid=" + aid + " ]";
+    }
     
 }

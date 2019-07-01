@@ -6,9 +6,7 @@
 package model;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,118 +16,128 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author lb38
  */
-
-@Entity 
-@Table(name="kfz")
+@Entity
+@Table(name = "kfz")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name="kfz.findAll", query="SELECT k FROM Kfz k"),
-    @NamedQuery(name="kfz.findByKID", query="SELECT k FROM Kfz WHERE k.KID = :kid"),
-    @NamedQuery(name="kfz.findByKennzeichen", query="SELECT k FROM Kfz k WHERE k.kennzeichen = :kennzeichen"),
-    @NamedQuery(name="kfz.findByFarbe", query="SELECT k FROM Kfz k WHERE k.farbe = :farbe"),
-    @NamedQuery(name="kfz.findByMarke", query="SELECT k FROM Kfz WHERE k.marke = :marke")})
-
-public class Kfz implements Serializable{
+    @NamedQuery(name = "Kfz.findAll", query = "SELECT k FROM Kfz k")
+    , @NamedQuery(name = "Kfz.findByKid", query = "SELECT k FROM Kfz k WHERE k.kid = :kid")
+    , @NamedQuery(name = "Kfz.findByKennzeichen", query = "SELECT k FROM Kfz k WHERE k.kennzeichen = :kennzeichen")
+    , @NamedQuery(name = "Kfz.findByFarbe", query = "SELECT k FROM Kfz k WHERE k.farbe = :farbe")
+    , @NamedQuery(name = "Kfz.findByMarke", query = "SELECT k FROM Kfz k WHERE k.marke = :marke")})
+public class Kfz implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    
-    // Internen Variablen
     @Basic(optional = false)
-    @Column(name="KID")
+    @Column(name = "KID")
     private Integer kid;
     @Basic(optional = false)
-    @Column(name="Farbe")
-    private String farbe;
-    @Basic(optional = false)
-    @Size(min=1, max=24)
-    @Column(name="Kennzeichen")
+    @NotNull
+    @Size(min = 1, max = 25)
+    @Column(name = "Kennzeichen")
     private String kennzeichen;
     @Basic(optional = false)
-    @Size(min=1, max=24)
-    @Column(name="Marke")
+    @NotNull
+    @Size(min = 1, max = 8)
+    @Column(name = "Farbe")
+    private String farbe;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 25)
+    @Column(name = "Marke")
     private String marke;
-    
-    // Verweise auf andere Tabellen
-    @JoinColumn(name="FK_FID", referencedColumnName="FID")
+    @JoinColumn(name = "FK_FID", referencedColumnName = "FID")
     @ManyToOne(optional = false)
-    private Fahrzeughalter fahrzeughalterFKID;
-    
-    // Verweise auf diese Tabelle 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="kfzFKID")
-    private Collection<Kfz> kfzCollection;
+    private Fahrzeughalter fkFid;
 
-    // Konstruktor
     public Kfz() {
     }
+
     public Kfz(Integer kid) {
         this.kid = kid;
     }
-    public Kfz(Integer kid, String farbe, String kennzeichen, String marke, Fahrzeughalter fahrzeughalterFKID, Collection<Kfz> kfzCollection) {
+
+    public Kfz(Integer kid, String kennzeichen, String farbe, String marke) {
         this.kid = kid;
-        this.farbe = farbe;
         this.kennzeichen = kennzeichen;
+        this.farbe = farbe;
         this.marke = marke;
-        this.fahrzeughalterFKID = fahrzeughalterFKID;
-        this.kfzCollection = kfzCollection;
     }
-    
-    // Setter und Getter
+
     public Integer getKid() {
         return kid;
     }
+
     public void setKid(Integer kid) {
         this.kid = kid;
-    }
-
-    public String getFarbe() {
-        return farbe;
-    }
-    public void setFarbe(String farbe) {
-        this.farbe = farbe;
     }
 
     public String getKennzeichen() {
         return kennzeichen;
     }
+
     public void setKennzeichen(String kennzeichen) {
         this.kennzeichen = kennzeichen;
+    }
+
+    public String getFarbe() {
+        return farbe;
+    }
+
+    public void setFarbe(String farbe) {
+        this.farbe = farbe;
     }
 
     public String getMarke() {
         return marke;
     }
+
     public void setMarke(String marke) {
         this.marke = marke;
     }
 
-    public Fahrzeughalter getFahrzeughalterFKID() {
-        return fahrzeughalterFKID;
-    }
-    public void setFahrzeughalterFKID(Fahrzeughalter fahrzeughalterFKID) {
-        this.fahrzeughalterFKID = fahrzeughalterFKID;
+    public Fahrzeughalter getFkFid() {
+        return fkFid;
     }
 
-    @XmlTransient
-    public Collection<Kfz> getKfzCollection() {
-        return kfzCollection;
+    public void setFkFid(Fahrzeughalter fkFid) {
+        this.fkFid = fkFid;
     }
-    public void setKfzCollection(Collection<Kfz> kfzCollection) {
-        this.kfzCollection = kfzCollection;
-    }
-    
-    // Memberfunktionen
-    
 
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (kid != null ? kid.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Kfz)) {
+            return false;
+        }
+        Kfz other = (Kfz) object;
+        if ((this.kid == null && other.kid != null) || (this.kid != null && !this.kid.equals(other.kid))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "model.Kfz[ kid=" + kid + " ]";
+    }
+    
 }
