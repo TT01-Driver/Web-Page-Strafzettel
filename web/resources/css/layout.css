@@ -60,4 +60,24 @@ body{
     height: 500px;
 }
 
+a:link 
+{  
+  text-decoration:none;
+  font-family:Calibri;
+  font-size:x-large;
+  color: greenyellow;
+}
+a:visited 
+{  
+  text-decoration:none;
+  font-family:Calibri;
+  color: #000000;
+}
+a:hover 
+{  
+  text-decoration:none;
+  font-family:Calibri;
+  color: #FFFFFF;
+}
+
 

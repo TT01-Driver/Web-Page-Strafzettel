@@ -57,9 +57,9 @@ public class Kfz implements Serializable {
     @Size(min = 1, max = 25)
     @Column(name = "Marke")
     private String marke;
-    @JoinColumn(name = "FK_FID", referencedColumnName = "FID")
+    @JoinColumn(name = "FK_PID", referencedColumnName = "PID")
     @ManyToOne(optional = false)
-    private Fahrzeughalter fkFid;
+    private Person fkPid;
 
     public Kfz() {
     }
@@ -107,12 +107,12 @@ public class Kfz implements Serializable {
         this.marke = marke;
     }
 
-    public Fahrzeughalter getFkFid() {
-        return fkFid;
+    public Person getFkPid() {
+        return fkPid;
     }
 
-    public void setFkFid(Fahrzeughalter fkFid) {
-        this.fkFid = fkFid;
+    public void setFkPid(Person fkPid) {
+        this.fkPid = fkPid;
     }
 
     @Override

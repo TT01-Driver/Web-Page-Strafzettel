@@ -50,9 +50,7 @@ public class Anschrift implements Serializable {
     @Size(min = 1, max = 25)
     @Column(name = "Strasse")
     private String strasse;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 25)
+    @Size(max = 25)
     @Column(name = "Hausnummer")
     private String hausnummer;
     @Basic(optional = false)
@@ -76,10 +74,9 @@ public class Anschrift implements Serializable {
         this.aid = aid;
     }
 
-    public Anschrift(Integer aid, String strasse, String hausnummer, int plz, String ort) {
+    public Anschrift(Integer aid, String strasse, int plz, String ort) {
         this.aid = aid;
         this.strasse = strasse;
-        this.hausnummer = hausnummer;
         this.plz = plz;
         this.ort = ort;
     }

@@ -18,43 +18,83 @@ and open the template in the editor.
                 <ui:define name="content">
                     <h:form>
                         <div style="overflow-y: auto; height: 100%">
+                            <div style="font-size: 35px; text-align: center">
+                                Strafzettel
+                            </div>
                             <h:dataTable 
                                 id ="table2"
-                                value="#{strafverfolgung}"
+                                value="#{kfzJPABean.strafzettelListe}"
                                 class="table table-striped table-bordered"
-                                var="strafverfolgung"
+                                var="strafzettel" 
+                                title="Strafzettel"
                                 border="1">
                                 <h:outputText value="Strafzettel"/>
                                 <h:column>
                                     <f:facet name="header">
-                                        <h:outputText value="Kennzeichen"/>
+                                        <h:outputText value="ID"/>
                                     </f:facet>
-                                    <h:outputText value="#{strafverfolgung.strafzettelKennzeichen}"/>
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Vorname"/>
-                                    </f:facet>
-                                    <h:outputText value="#{strafverfolgung.fahrzeughalterVorname}"/>
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Nachname"/>
-                                    </f:facet>
-                                    <h:outputText value="#{strafverfolgung.fahrzeughalterNachname}"/>
+                                    <h:outputText value="#{strafzettel.sid}"/>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">
                                         <h:outputText value="Datum"/>
                                     </f:facet>
-                                    <h:outputText value="#{strafverfolgung.strafzettelDatum}"/>
+                                    <h:outputText value="#{strafzettel.datum}">
+                                        <f:convertDateTime pattern="dd.MM.yyyy"/>
+                                    </h:outputText>
                                 </h:column>
-                                 <h:column>
+                                <h:column>
                                     <f:facet name="header">
                                         <h:outputText value="Uhrzeit"/>
                                     </f:facet>
-                                     <h:outputText value="#{strafzettel.strafzettelUhrzeit}"/>
+                                    <h:outputText value="#{strafzettel.uhrzeit}">
+                                        <f:convertDateTime pattern="HH:mm"/>
+                                    </h:outputText>
                                 </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Kennzeichen"/>
+                                    </f:facet>
+                                    <h:outputText value="#{strafzettel.kennzeichen}"/>
+                                </h:column>
+                                 <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Marke"/>
+                                    </f:facet>
+                                     <h:outputText value="#{strafzettel.marke}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Farbe"/>
+                                    </f:facet>
+                                    <h:outputText value="#{strafzettel.farbe}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Strasse"/>
+                                    </f:facet>
+                                    <h:outputText value="#{strafzettel.fkAid.strasse}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="PLZ"/>
+                                    </f:facet>
+                                    <h:outputText value="#{strafzettel.fkAid.plz}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Ort"/>
+                                    </f:facet>
+                                    <h:outputText value="#{strafzettel.fkAid.ort}"/>
+                                </h:column>
+                                <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Personendaten"/>
+                                </f:facet>
+                                    <h:commandLink action="#{kfzJPABean.getAndGoToPersonendaten(strafzettel.kennzeichen)}"
+                                               value="Anzeigen"
+                                               style="font-weight: bold"/>
+                            </h:column>
                             </h:dataTable>
                         </div>
                     </h:form>

@@ -18,6 +18,9 @@ and open the template in the editor.
                 <ui:define name="content">
                     <h:form>
                         <div style="overflow-y: auto; height: 100%">
+                            <div style="font-size: 35px; text-align: center">
+                                Fahrzeugliste
+                            </div>
                             <h:dataTable 
                                 id ="table1"
                                 value="#{kfzJPABean.kfzListe}"
@@ -47,13 +50,13 @@ and open the template in the editor.
                                     <f:facet name="header">
                                         <h:outputText value="Nachname"/>
                                     </f:facet>
-                                    <h:outputText value="#{fahrz.fkFid.nachname}"/>
+                                    <h:outputText value="#{fahrz.fkPid.nachname}"/>
                                 </h:column>    
                                 <h:column>
                                     <f:facet name="header">
                                         <h:outputText value="Vorname"/>
                                     </f:facet>
-                                    <h:outputText value="#{fahrz.fkFid.vorname}"/>
+                                    <h:outputText value="#{fahrz.fkPid.vorname}"/>
                                 </h:column>
                             </h:dataTable>
                         </div>

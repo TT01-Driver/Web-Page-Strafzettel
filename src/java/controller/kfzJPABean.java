@@ -24,15 +24,14 @@ import utilities.Data;
 public class kfzJPABean {
     private List<Kfz> kfzListe;
     private List<Strafzettel> strafzettelListe;
-    private List<Strafverfolgung> strafverfolgungsListe;
     
     @Inject
     private Data dbBean;
 
+    // Konstruktor
     public kfzJPABean() {
         this.kfzListe = new ArrayList<>();
         this.strafzettelListe = new ArrayList<>();
-        this.strafverfolgungsListe = new ArrayList<>();
     }
     
     @PostConstruct
@@ -41,13 +40,7 @@ public class kfzJPABean {
         this.strafzettelListe = dbBean.dbGetStrafzettelList();
     }
 
-    public List<Strafverfolgung> getStrafverfolgungsListe() {
-        return strafverfolgungsListe;
-    }
-    public void setStrafverfolgungsListe(List<Strafverfolgung> strafverfolgungsListe) {
-        this.strafverfolgungsListe = strafverfolgungsListe;
-    }
-
+    // Memberfunktionen
     public List<Strafzettel> getStrafzettelListe() {
         return strafzettelListe;
     }
@@ -62,6 +55,9 @@ public class kfzJPABean {
         this.kfzListe = kfzListe;
     }
     
-    
-    
+    public String getAndGoToPersonendaten(String kennzeichen){
+        strafzettelListe = dbBean.dbGetStrafzettelListByKennzeichen(kennzeichen);
+        kfzListe = dbBean.dbGetKfzListByKennzeichen(kennzeichen);
+        return "personendaten.xhtml";
+    }
 }

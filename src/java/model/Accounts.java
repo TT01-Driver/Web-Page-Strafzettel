@@ -14,8 +14,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -30,57 +28,69 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author lb38
  */
 @Entity
-@Table(name = "adresse")
+@Table(name = "accounts")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Adresse.findAll", query = "SELECT a FROM Adresse a")
-    , @NamedQuery(name = "Adresse.findByAdrID", query = "SELECT a FROM Adresse a WHERE a.adrID = :adrID")
-    , @NamedQuery(name = "Adresse.findByTelefon", query = "SELECT a FROM Adresse a WHERE a.telefon = :telefon")})
-public class Adresse implements Serializable {
+    @NamedQuery(name = "Accounts.findAll", query = "SELECT a FROM Accounts a")
+    , @NamedQuery(name = "Accounts.findByAccID", query = "SELECT a FROM Accounts a WHERE a.accID = :accID")
+    , @NamedQuery(name = "Accounts.findByAccName", query = "SELECT a FROM Accounts a WHERE a.accName = :accName")
+    , @NamedQuery(name = "Accounts.findByAccPW", query = "SELECT a FROM Accounts a WHERE a.accPW = :accPW")})
+public class Accounts implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "AdrID")
-    private Integer adrID;
+    @Column(name = "AccID")
+    private Integer accID;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 25)
-    @Column(name = "Telefon")
-    private String telefon;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fKAdrID")
+    @Column(name = "AccName")
+    private String accName;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 25)
+    @Column(name = "AccPW")
+    private String accPW;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fKAccID")
     private Collection<Person> personCollection;
-    @JoinColumn(name = "FK_AID", referencedColumnName = "AID")
-    @ManyToOne(optional = false)
-    private Anschrift fkAid;
 
-    public Adresse() {
+    public Accounts() {
     }
 
-    public Adresse(Integer adrID) {
-        this.adrID = adrID;
+    public Accounts(Integer accID) {
+        this.accID = accID;
     }
 
-    public Adresse(Integer adrID, String telefon) {
-        this.adrID = adrID;
-        this.telefon = telefon;
+    public Accounts(Integer accID, String accName, String accPW) {
+        this.accID = accID;
+        this.accName = accName;
+        this.accPW = accPW;
     }
 
-    public Integer getAdrID() {
-        return adrID;
+    public Integer getAccID() {
+        return accID;
     }
 
-    public void setAdrID(Integer adrID) {
-        this.adrID = adrID;
+    public void setAccID(Integer accID) {
+        this.accID = accID;
     }
 
-    public String getTelefon() {
-        return telefon;
+    public String getAccName() {
+        return accName;
     }
 
-    public void setTelefon(String telefon) {
-        this.telefon = telefon;
+    public void setAccName(String accName) {
+        this.accName = accName;
+    }
+
+    public String getAccPW() {
+        return accPW;
+    }
+
+    public void setAccPW(String accPW) {
+        this.accPW = accPW;
     }
 
     @XmlTransient
@@ -92,29 +102,21 @@ public class Adresse implements Serializable {
         this.personCollection = personCollection;
     }
 
-    public Anschrift getFkAid() {
-        return fkAid;
-    }
-
-    public void setFkAid(Anschrift fkAid) {
-        this.fkAid = fkAid;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (adrID != null ? adrID.hashCode() : 0);
+        hash += (accID != null ? accID.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Adresse)) {
+        if (!(object instanceof Accounts)) {
             return false;
         }
-        Adresse other = (Adresse) object;
-        if ((this.adrID == null && other.adrID != null) || (this.adrID != null && !this.adrID.equals(other.adrID))) {
+        Accounts other = (Accounts) object;
+        if ((this.accID == null && other.accID != null) || (this.accID != null && !this.accID.equals(other.accID))) {
             return false;
         }
         return true;
@@ -122,7 +124,7 @@ public class Adresse implements Serializable {
 
     @Override
     public String toString() {
-        return "model.Adresse[ adrID=" + adrID + " ]";
+        return "model.Accounts[ accID=" + accID + " ]";
     }
     
 }

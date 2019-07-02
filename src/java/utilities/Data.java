@@ -15,9 +15,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import javax.persistence.TypedQuery;
 import javax.transaction.UserTransaction;
-import model.Fahrzeughalter;
+import model.Person;
 import model.Kfz;
-import controller.Strafverfolgung;
 import model.Strafzettel;
 
 /**
@@ -41,7 +40,7 @@ public class Data implements Serializable {
     public Kfz dbGetKfzByID(int ID){
         EntityManager em = emf.createEntityManager();       
         TypedQuery<Kfz> query = 
-                em.createNamedQuery("kfz.findByKID", Kfz.class);
+                em.createNamedQuery("Kfz.findByKID", Kfz.class);
         query.setParameter("kid", ID);
         return query.getSingleResult();
     }
@@ -53,11 +52,11 @@ public class Data implements Serializable {
         return query.getResultList();   
     }
     
-       public List<Kfz> dbGetKfzListByKennzeichen(){
+       public List<Kfz> dbGetKfzListByKennzeichen(String kennzeichen){
         EntityManager em = emf.createEntityManager();        
         TypedQuery<Kfz> query = 
                 em.createNamedQuery("Kfz.findByKennzeichen", Kfz.class);
-        return query.getResultList();   
+        return query.setParameter("kennzeichen", kennzeichen).getResultList();
     }
     
     public List<Strafzettel> dbGetStrafzettelList(){
@@ -67,24 +66,17 @@ public class Data implements Serializable {
         return query.getResultList();   
     }
    
-    public List<Strafzettel> dbGetStrafzettelListByKennzeichen(){
+    public List<Strafzettel> dbGetStrafzettelListByKennzeichen(String kennzeichen){
         EntityManager em = emf.createEntityManager();        
         TypedQuery<Strafzettel> query = 
                 em.createNamedQuery("Strafzettel.findByKennzeichen", Strafzettel.class);
-        return query.getResultList();   
+        return query.setParameter("kennzeichen", kennzeichen).getResultList();   
     }
 
-    public List<Fahrzeughalter> dBGetFahrzeughalterList() {
+    public List<Person> dBGetPersonList() {
         EntityManager em = emf.createEntityManager();        
-        TypedQuery<Fahrzeughalter> query = 
-                em.createNamedQuery("Fahrzeughalter.findAll", Fahrzeughalter.class);
-        return query.getResultList();
-    }
-    
-    public List<Strafverfolgung> dBGetStrafverfolgungList() {
-        EntityManager em = emf.createEntityManager();        
-        TypedQuery<Strafverfolgung> query = 
-                em.createNamedQuery("Strafverfolgung.findAll", Strafverfolgung.class);
+        TypedQuery<Person> query = 
+                em.createNamedQuery("Person.findAll", Person.class);
         return query.getResultList();
     }
 }
