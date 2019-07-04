@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 
+    Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:form>
+        <h:panelGrid
+                id="LoginGrid"
+                columns="2" 
+                rendered="#{loginJPABean.isRendered}">
+                <h:outputLabel  
+                    for="Login"
+                    style="margin: 5px;" 
+                    value="Benutzer:" 
+                    styleClass="h5"/>
+                <h:inputText  
+                    id="Login" 
+                    value="#{loginJPABean.userName}"
+                    required="true" 
+                    requiredMessage="Name erforderlich!"
+                    styleClass="form-control"
+                    style="margin: 5px;width: 100px;height: 25px;"/>
+                <h:outputLabel
+                    for="PWD"
+                    style="margin: 5px;"
+                    value="Passwort: "
+                    styleClass="h5"/>
+                <h:inputSecret  
+                    id="PWD" 
+                    value="#{loginJPABean.userPW}"
+                    style="margin: 5px;width: 100px;height: 25px;"
+                    styleClass="form-control" 
+                    redisplay="false"
+                    required="true" 
+                    requiredMessage="Passwort erforderlich!"/>
+                <h:outputLabel style="margin-left: 5px;"/>
+                <h:commandButton
+                    value="Login"
+                    style="margin: 5px;width: 100px;height: 25px;"
+                    action="#{loginJPABean.login()}" />
+            </h:panelGrid>
+    </h:form>
+</html>

@@ -13,21 +13,34 @@ and open the template in the editor.
             <li>
                 <h:commandLink 
                     value="Home"
-                    action="startseite.xhtml">
+                    action="startseite.xhtml"
+                    style="text-align: right">
                 </h:commandLink>
             </li>
             <li>
                 <h:commandLink 
                     value="Fahrzeuge"
-                    action="kfz.xhtml">
+                    action="kfz.xhtml"
+                    style="text-align: right"
+                    rendered="#{loginJPABean.isLoggedIn}">
                 </h:commandLink>
             </li>
             <li>
                 <h:commandLink 
                     value="Strafzettel"
-                    action="strafzettel.xhtml">
+                    action="strafzettel.xhtml"
+                    style="text-align: right"
+                    rendered="#{loginJPABean.isLoggedIn}">
                 </h:commandLink>
             </li>
         </br>
+        <li>
+            <h:commandLink 
+                value="Anmelden"
+                rendered="#{!loginJPABean.isLoggedIn}"
+                action="#{loginJPABean.showLogin()}"
+                style="text-align: right">
+            </h:commandLink>
+        </li>
     </h:form>
 </html>

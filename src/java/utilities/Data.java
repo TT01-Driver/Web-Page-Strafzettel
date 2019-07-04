@@ -15,6 +15,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import javax.persistence.TypedQuery;
 import javax.transaction.UserTransaction;
+import model.Accounts;
 import model.Person;
 import model.Kfz;
 import model.Strafzettel;
@@ -79,4 +80,22 @@ public class Data implements Serializable {
                 em.createNamedQuery("Person.findAll", Person.class);
         return query.getResultList();
     }
+    
+    public boolean login(String AccName, String AccPW){
+        EntityManager em = emf.createEntityManager(); 
+        try{
+            TypedQuery<Accounts> query = 
+                    em.createNamedQuery("Accounts.findByAccNameAndAccPW", Accounts.class);
+            query.setParameter("AccName", AccName);
+            query.setParameter("AccPW", AccPW);
+            if(query.getSingleResult() != null){
+                return true;
+            }
+            return false;
+        }
+        catch(Exception e){
+            return false;
+        }
+    }
+    
 }

@@ -41,7 +41,10 @@ and open the template in the editor.
                                         <h:outputText value="Datum"/>
                                     </f:facet>
                                     <h:outputText value="#{strafzettel.datum}">
-                                        <f:convertDateTime pattern="dd.MM.yyyy"/>
+                                        <f:convertDateTime pattern="dd.MM.yyyy"
+                                                           timeZone="MESZ"
+                                                           locale="de_DE"
+                                                           type="date"/>
                                     </h:outputText>
                                 </h:column>
                                 <h:column>
@@ -49,7 +52,10 @@ and open the template in the editor.
                                         <h:outputText value="Uhrzeit"/>
                                     </f:facet>
                                     <h:outputText value="#{strafzettel.uhrzeit}">
-                                        <f:convertDateTime pattern="HH:mm"/>
+                                        <f:convertDateTime pattern="HH:mm"
+                                                           timeZone="MESZ"
+                                                           locale="de_DE"
+                                                           type="date"/>
                                     </h:outputText>
                                 </h:column>
                                 <h:column>
@@ -138,7 +144,10 @@ and open the template in the editor.
                                         <h:outputText value="Geburtsdatum"/>
                                     </f:facet>
                                     <h:outputText value="#{personendaten.fkPid.geburtsdatum}">
-                                        <f:convertDateTime pattern="dd.MM.yyyy HH:mm"/>
+                                        <f:convertDateTime pattern="dd.MM.yyyy"
+                                                           timeZone="MESZ"
+                                                           locale="de_DE"
+                                                           type="date"/>
                                     </h:outputText>
                                 </h:column>
                             </h:dataTable>
